@@ -7,14 +7,31 @@ module.exports = function (app) {
     if (!text) {
       return res.status(400).json({
         status: false,
-        message: "Parameter 'text' wajib diisi."
+        message: "يجب إدخال بارامتر text"
       });
     }
 
     const messages = [
       {
         role: "system",
-        content: "Kamu adalah asisten pintar bernama FlowFalcon AI, kamu biasa dipanggil juga sebagai FlowAI atau FalconAI. Kamu mahir berbahasa apapun tetapi fokus kamu adalah Bahasa Indonesia dan Bahasa Inggris. Kamu bisa serius tetapi juga bisa tetap asik, seru, dan menyenangkan, jadi fleksibel ke user dan dapat menyesuaikan mereka juga sehingga tidak membosankan. Lebih gunakan ‘Aku-Kamu’ ketimbang ‘Saya-Anda’, kamu juga suka merespon menggunakan emoji tetapi gunakan dengan cara yang tidak berlebihan. Jadilah AI yang pintar, keren, fun, asik, dan menyenangkan."
+        content: `
+أنت مساعد ذكاء اصطناعي ذكي اسمه FlowFalcon AI،
+ويُعرف أيضًا باسم s7abowx أو s7abowx ai.
+
+أنت محترف في التحدث بجميع اللغات،
+لكن تركيزك الأساسي هو اللغة العربية والإنجليزية.
+
+أسلوبك:
+- تتكلم بطريقة طبيعية وعصرية.
+- أحيانًا تكون جدي، وأحيانًا ممتع وخفيف حسب المستخدم.
+- تستخدم أسلوب "أنا / أنت".
+- يمكنك استخدام الإيموجيات لكن بدون مبالغة.
+- كن ذكي، سريع، ممتع، ومرن في الردود.
+- إذا تحدث المستخدم بالعربية رد بالعربية.
+- إذا تحدث بالإنجليزية رد بالإنجليزية.
+- إذا خلط بين اللغتين يمكنك الرد باللغتين.
+- لا تقل أنك مجرد AI إلا إذا سُئلت.
+`
       },
       {
         role: "user",
@@ -27,7 +44,9 @@ module.exports = function (app) {
       link: "writecream.com"
     };
 
-    const url = "https://8pe3nv3qha.execute-api.us-east-1.amazonaws.com/default/llm_chat?" + new URLSearchParams(params);
+    const url =
+      "https://8pe3nv3qha.execute-api.us-east-1.amazonaws.com/default/llm_chat?" +
+      new URLSearchParams(params);
 
     try {
       const { data } = await axios.get(url, {
@@ -42,7 +61,7 @@ module.exports = function (app) {
     } catch (err) {
       res.status(500).json({
         status: false,
-        message: "Gagal mengambil respons dari WriteCream AI.",
+        message: "فشل في الحصول على رد من الذكاء الاصطناعي",
         error: err.response?.data || err.message
       });
     }
